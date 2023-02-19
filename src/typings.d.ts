@@ -1,7 +1,9 @@
 export interface Channel{
-    Id: number,
-    Name: string,
-    Value: number
+    id: number,
+    name: string,
+    value: number,
+    created_at:string,
+    updated_at:string,
 }
 export interface diagram {
     id:number;
