@@ -1,0 +1,22 @@
+.ButtonContainer{
+    height: 30px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 11px;
+    cursor: pointer;
+    line-height: 1;
+    transition: background-color 0.3s ease-in 0s, color 0.3s ease-in 0s, border 0.3s ease-in 0s;
+    border-radius: 2px;
+    border: 2px solid rgb(213, 0, 0);
+    background-color: rgb(213, 0, 0);
+    color: rgb(255, 255, 255);
+    &:hover{
+        color: black;
+        background-color: transparent!important;
+    }
+
+}
