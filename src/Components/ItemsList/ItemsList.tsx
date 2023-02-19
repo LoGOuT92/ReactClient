@@ -8,9 +8,20 @@ import { diagram } from "../../typings";
 interface Props {
   data: diagram[] | undefined;
   changeColorHandler: (id: number, color: string) => void;
+  deleteItemhandler: (id: number) => Promise<void>;
+  createNewItemHandler: (name: string, value: number) => Promise<void>;
+  updateItemhandler: (id: number, value: number) => Promise<void>;
+  loading: boolean;
 }
 
-export function ItemsList({ data, changeColorHandler }: Props) {
+export function ItemsList({
+  data,
+  changeColorHandler,
+  deleteItemhandler,
+  createNewItemHandler,
+  updateItemhandler,
+  loading,
+}: Props) {
   const [addItemVisibility, setAddItemVisibility] = useState(false);
 
   const ChangeAddItemVisibilityHandler = () => {
@@ -31,12 +42,18 @@ export function ItemsList({ data, changeColorHandler }: Props) {
           />
         </span>
       </li>
-      <ListAddItem addItemVisibility={addItemVisibility} />
+      <ListAddItem
+        addItemVisibility={addItemVisibility}
+        createNewItemHandler={createNewItemHandler}
+      />
       {data?.map((item) => (
         <SingleItem
           key={item.id}
           {...item}
           changeColorHandler={changeColorHandler}
+          deleteItemhandler={deleteItemhandler}
+          updateItemhandler={updateItemhandler}
+          loading={loading}
         />
       ))}
     </ul>
