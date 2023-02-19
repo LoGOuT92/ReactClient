@@ -21,7 +21,6 @@ export function NumericInput({ value, setNevValue, title, error }: Props) {
       setNevValue(NumberValue);
     }
     //if the user cleared the entire value
-    //clear input and fetch all products
 
     if (event.target.value.length === 0) {
       setNevValue(0);
