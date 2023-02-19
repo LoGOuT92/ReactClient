@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { PieChart } from "react-minimal-pie-chart";
 import { diagram } from "../../typings";
 import styles from "./diagram.module.scss";
@@ -11,7 +10,6 @@ export function Diagram({ data }: { data: diagram[] | undefined }) {
           style={{
             fontSize: "9px",
             width: "80%",
-            color: "black",
           }}
           label={({ dataEntry }) => Math.round(dataEntry.percentage) + "%"}
           labelPosition={100 - 60 / 2}
@@ -19,7 +17,6 @@ export function Diagram({ data }: { data: diagram[] | undefined }) {
             fill: "#fff",
             opacity: 0.75,
             pointerEvents: "none",
-            color: "black",
           }}
           data={data}
         />
