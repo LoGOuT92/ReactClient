@@ -4,7 +4,7 @@ interface Props {
   placeholder?: string;
   error?: string;
   value: string;
-  setNevValue: (value: string) => void;
+  onChange: (value: string) => void;
 }
 
 export function InputField({
@@ -13,7 +13,7 @@ export function InputField({
   type,
   error,
   value,
-  setNevValue,
+  onChange,
 }: Props) {
   const changeValueHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -21,7 +21,7 @@ export function InputField({
     if (event.target.value.length > 40) {
       return;
     }
-    setNevValue(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
@@ -32,8 +32,8 @@ export function InputField({
         id={title}
         placeholder={placeholder}
         value={value}
-        onChange={(event) => changeValueHandler(event)}
-      ></input>
+        onChange={changeValueHandler}
+      />
       {error && <label style={{ color: "red", fontSize: 12 }}>{error}</label>}
     </span>
   );
