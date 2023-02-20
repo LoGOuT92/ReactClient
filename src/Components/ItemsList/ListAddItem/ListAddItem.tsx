@@ -3,39 +3,46 @@ import { Button } from "../../UI/Button/Button";
 import { NumericInput } from "../../UI/NumericInput/NumericInput";
 import styles from "./ListAddItem.module.scss";
 import { InputField } from "../../UI/InputField/InputField";
-import { numberValidate } from "../../UI/numberValueValidate";
-import { textValueValidate } from "../../UI/textValueValidate";
+import { numberValidate, textValueValidate } from "../../UI/validation";
+
+interface Props {
+  addItemVisibility: boolean;
+  createNewItemHandler: (name: string, value: number) => Promise<void>;
+}
 
 export function ListAddItem({
   addItemVisibility,
   createNewItemHandler,
-}: {
-  addItemVisibility: boolean;
-  createNewItemHandler: (name: string, value: number) => Promise<void>;
-}) {
+}: Props) {
   const [value, setValue] = useState<number>(0);
   const [channelName, setChannelName] = useState<string>("");
+  const [channelError, setChannelError] = useState<string>("");
+  const [valueError, setValueError] = useState<string>("");
 
-  const [channelError, setchannelError] = useState("");
-  const [valueError, setvalueError] = useState("");
+  const addNewItemHandler = (): void => {
+    const { textError, numberError } = validateInputs();
+    setChannelError(textError);
+    setValueError(numberError);
 
-  const AddNewItemHandler = () => {
-    setvalueError(numberValidate(value));
-    setchannelError(textValueValidate(channelName));
-
-    if (!textValueValidate(channelName) && !numberValidate(value)) {
+    if (!textError && !numberError) {
       createNewItemHandler(channelName, value);
       setValue(0);
       setChannelName("");
     }
   };
 
+  const validateInputs = () => {
+    const textError = textValueValidate(channelName);
+    const numberError = numberValidate(value);
+    return { textError, numberError };
+  };
+
   return (
     <li
       className={`${
         !addItemVisibility
-          ? styles.ListAddItemContainer
-          : styles.ListAddItemContainer2
+          ? styles.ListAddItemContainerHidden
+          : styles.ListAddItemContainer
       }`}
     >
       <InputField
@@ -44,7 +51,7 @@ export function ListAddItem({
         placeholder="Podaj kanał"
         value={channelName}
         error={channelError}
-        setNevValue={(channelname: string) => setChannelName(channelname)}
+        setNevValue={(channelName: string) => setChannelName(channelName)}
       />
 
       <NumericInput
@@ -55,7 +62,7 @@ export function ListAddItem({
       />
       <span>
         <Button
-          OnClickFunction={AddNewItemHandler}
+          OnClickFunction={addNewItemHandler}
           type="submit"
           title="Add"
           color="green"

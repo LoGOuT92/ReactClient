@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Channel, diagram } from "../../../typings";
+import { useState } from "react";
+import { diagram } from "../../../typings";
 import { Button } from "../../UI/Button/Button";
 import styles from "./SingleItem.module.scss";
 import { NumericInput } from "../../UI/NumericInput/NumericInput";
-import { numberValidate } from "../../UI/numberValueValidate";
+import { numberValidate } from "../../UI/validation";
 
 interface Props {
   changeColorHandler: (id: number, color: string) => void;
@@ -25,19 +25,22 @@ export function SingleItem({
   const [editValueMode, setEditValueMode] = useState(false);
   const [numberValue, setNumberValue] = useState<number>(value);
   const [valueError, setValueError] = useState<string>("");
-  const ChangeEditModeHandler = () => {
+
+  const changeEditModeHandler = () => {
     setEditValueMode(!editValueMode);
   };
 
   const saveNewValueHandler = () => {
-    setValueError(numberValidate(numberValue));
-    if (!numberValidate(numberValue)) {
-      updateItemhandler(id, numberValue);
-      setEditValueMode(false);
-    }
+    const validationResult = numberValidate(numberValue);
+    setValueError(validationResult);
+
+    !validationResult
+      ? updateItemhandler(id, numberValue).then(() => setEditValueMode(false))
+      : alert(validationResult);
   };
+
   const deleteItem = () => {
-    deleteItemhandler(id).then();
+    deleteItemhandler(id);
   };
 
   return (
@@ -47,16 +50,18 @@ export function SingleItem({
       ) : (
         <>
           <span>{title}</span>
-          {(editValueMode && (
+          {editValueMode ? (
             <NumericInput
               title=""
               value={numberValue}
               setNevValue={(number: number) => setNumberValue(number)}
               error={valueError}
             />
-          )) || <span>{value}</span>}
+          ) : (
+            <span>{value}</span>
+          )}
           <span className={styles.buttonsActionListItemContainer}>
-            {(editValueMode && (
+            {editValueMode ? (
               <>
                 <Button
                   title="Save"
@@ -66,13 +71,13 @@ export function SingleItem({
                 />
                 <input
                   type="color"
-                  value={color}
+                  value={color ?? ""}
                   onChange={(event) =>
                     changeColorHandler(id, event.target.value)
                   }
-                ></input>
+                />
               </>
-            )) || (
+            ) : (
               <Button
                 title="Delete"
                 color="red"
@@ -81,8 +86,8 @@ export function SingleItem({
               />
             )}
             <Button
-              OnClickFunction={ChangeEditModeHandler}
-              title="Edit"
+              OnClickFunction={changeEditModeHandler}
+              title={editValueMode ? "Cancel" : "Edit"}
               color="blue"
               width={50}
             />

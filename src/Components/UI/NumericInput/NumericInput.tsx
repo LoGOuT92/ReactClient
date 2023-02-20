@@ -8,7 +8,9 @@ interface Props {
 }
 
 export function NumericInput({ value, setNevValue, title, error }: Props) {
-  const NumberInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const NumberInputHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     //checking only numbers
     const checkNumber = numberInputMask(event.target.value);
     //max input lenght 6

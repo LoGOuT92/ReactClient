@@ -15,7 +15,9 @@ export function InputField({
   value,
   setNevValue,
 }: Props) {
-  const changeValueHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeValueHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     if (event.target.value.length > 40) {
       return;
     }
