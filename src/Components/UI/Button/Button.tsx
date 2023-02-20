@@ -7,20 +7,13 @@ interface Props {
   width?: number;
   height?: number;
   type?: "button" | "submit" | "reset" | undefined;
-  OnClickFunction?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export function Button({
-  title,
-  color,
-  width,
-  height,
-  type,
-  OnClickFunction,
-}: Props) {
+export function Button({ title, color, width, height, type, onClick }: Props) {
   return (
     <button
-      onClick={OnClickFunction}
+      onClick={onClick}
       type={type}
       className={styles.ButtonContainer}
       style={{
