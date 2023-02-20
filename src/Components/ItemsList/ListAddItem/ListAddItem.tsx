@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../../UI/Button/Button";
-import { NumericInput } from "../../UI/NumericInput/NumericInput";
+import { NumberInput } from "../../UI/NumberInput/NumberInput";
 import styles from "./ListAddItem.module.scss";
 import { InputField } from "../../UI/InputField/InputField";
 import { numberValidate, textValueValidate } from "../../UI/validation";
@@ -51,18 +51,18 @@ export function ListAddItem({
         placeholder="Podaj kanał"
         value={channelName}
         error={channelError}
-        setNevValue={(channelName: string) => setChannelName(channelName)}
+        onChange={(channelName: string) => setChannelName(channelName)}
       />
 
-      <NumericInput
+      <NumberInput
         title="Ilość"
         value={value}
-        setNevValue={(number: number) => setValue(number)}
+        setNewValue={(number: number) => setValue(number)}
         error={valueError}
       />
       <span>
         <Button
-          OnClickFunction={addNewItemHandler}
+          onClick={addNewItemHandler}
           type="submit"
           title="Add"
           color="green"
