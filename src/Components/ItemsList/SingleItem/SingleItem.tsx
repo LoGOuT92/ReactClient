@@ -2,7 +2,7 @@ import { useState } from "react";
 import { diagram } from "../../../typings";
 import { Button } from "../../UI/Button/Button";
 import styles from "./SingleItem.module.scss";
-import { NumericInput } from "../../UI/NumericInput/NumericInput";
+import { NumberInput } from "../../UI/NumberInput/NumberInput";
 import { numberValidate } from "../../UI/validation";
 
 interface Props {
@@ -51,10 +51,10 @@ export function SingleItem({
         <>
           <span>{title}</span>
           {editValueMode ? (
-            <NumericInput
+            <NumberInput
               title=""
               value={numberValue}
-              setNevValue={(number: number) => setNumberValue(number)}
+              setNewValue={(number: number) => setNumberValue(number)}
               error={valueError}
             />
           ) : (
@@ -67,7 +67,7 @@ export function SingleItem({
                   title="Save"
                   color="green"
                   width={50}
-                  OnClickFunction={saveNewValueHandler}
+                  onClick={saveNewValueHandler}
                 />
                 <input
                   type="color"
@@ -82,11 +82,11 @@ export function SingleItem({
                 title="Delete"
                 color="red"
                 width={50}
-                OnClickFunction={deleteItem}
+                onClick={deleteItem}
               />
             )}
             <Button
-              OnClickFunction={changeEditModeHandler}
+              onClick={changeEditModeHandler}
               title={editValueMode ? "Cancel" : "Edit"}
               color="blue"
               width={50}
