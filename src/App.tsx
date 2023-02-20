@@ -3,63 +3,59 @@ import { ItemsList } from "./Components/ItemsList/ItemsList";
 import { useEffect, useState } from "react";
 import { Diagram } from "./Components/Diagram/Diagram";
 import { Channel, diagram } from "./typings";
-import axios from "axios";
+import { createItem, deleteItem, editItem, getItems } from "./api/api";
+import { randomHexColor } from "./Components/UI/colorGenerator";
 
 function App() {
   const [diagramTable, setDiagramTable] = useState<diagram[]>();
   const [loading, setLoading] = useState(false);
 
-  const setValuesToCircleDiagramHandler = (data: Channel[]) => {
+  const setValuesToCircleDiagramHandler = (data: Channel[]): void => {
     let diagramDataTable: diagram[] = [];
     data.forEach((item) =>
       diagramDataTable.push({
         id: item.id,
         title: item.name,
         value: item.value,
-        color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+        color: randomHexColor(),
       })
     );
     setDiagramTable(diagramDataTable);
   };
   useEffect(() => {
-    const fetchDataHandler = async () => {
-      const { data } = await axios.get(
-        "http://localhost/my-site/public/api/channels"
-      );
+    const fetchDataHandler = async (): Promise<void> => {
+      const { data } = await getItems();
       setValuesToCircleDiagramHandler(data.channels);
     };
     fetchDataHandler();
   }, []);
 
-  const deleteItemhandler = async (id: number) => {
+  const deleteItemhandler = async (id: number): Promise<void> => {
     setLoading(true);
-    const { data } = await axios.delete(
-      `http://localhost/my-site/public/api/channels/${id}`
-    );
-
-    const filtredDiagramTable = diagramTable?.filter((item) => item.id !== id);
-    setDiagramTable(filtredDiagramTable);
+    try {
+      const { data } = await deleteItem(id);
+      const filtredDiagramTable = diagramTable?.filter(
+        (item) => item.id !== id
+      );
+      setDiagramTable(filtredDiagramTable);
+    } catch (error) {
+      console.error(error);
+    }
     setLoading(false);
   };
 
-  const createNewItemHandler = async (name: string, value: number) => {
+  const createNewItemHandler = async (
+    name: string,
+    value: number
+  ): Promise<void> => {
     const newItem = {
       name: name,
       value: value,
     };
     try {
-      const { data } = await axios.post(
-        "http://localhost/my-site/public/api/channels",
-        newItem
-      );
-      const newDiagramItem: diagram = {
-        id: data.channel.id,
-        title: data.channel.name,
-        value: data.channel.value,
-        color: "#" + Math.floor(Math.random() * 16777215).toString(16),
-      };
+      const { newDiagramItem, data } = await createItem(newItem);
       const updatedDiagramTable = diagramTable
-        ? [...diagramTable, newDiagramItem]
+        ? [newDiagramItem, ...diagramTable]
         : [newDiagramItem];
       setDiagramTable(updatedDiagramTable);
     } catch (error) {
@@ -67,15 +63,14 @@ function App() {
     }
   };
 
-  const updateItemhandler = async (id: number, value: number) => {
+  const updateItemhandler = async (
+    id: number,
+    value: number
+  ): Promise<void> => {
     setLoading(true);
     try {
-      const { data } = await axios.put(
-        `http://localhost/my-site/public/api/channels/${id}`,
-        {
-          value: value,
-        }
-      );
+      const data = await editItem(id, value);
+
       setDiagramTable(
         diagramTable?.map((item) => {
           if (item.id === id) {
@@ -90,7 +85,7 @@ function App() {
     }
   };
 
-  const changeColorHandler = (id: number, color: string) => {
+  const changeColorHandler = (id: number, color: string): void => {
     setDiagramTable(
       diagramTable?.map((item) => {
         if (item.id === id) {
