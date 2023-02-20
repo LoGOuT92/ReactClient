@@ -1,15 +1,13 @@
 import { MouseEventHandler } from "react";
 import styles from "./Button.module.scss";
+
 interface Props {
   title: string;
   color?: string;
   width?: number;
   height?: number;
   type?: "button" | "submit" | "reset" | undefined;
-  OnClickFunction?: () =>
-    | MouseEventHandler<HTMLButtonElement>
-    | undefined
-    | void;
+  OnClickFunction?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export function Button({
