@@ -23,7 +23,7 @@ export function ItemsList(props: Props) {
         <span>Ilość</span>
         <span>
           <Button
-            OnClickFunction={() => setAddItemVisibility(!addItemVisibility)}
+            onClick={() => setAddItemVisibility(!addItemVisibility)}
             title="Add"
             color="green"
             width={50}
