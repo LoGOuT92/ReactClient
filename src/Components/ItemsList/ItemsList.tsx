@@ -13,20 +13,8 @@ interface Props {
   updateItemhandler: (id: number, value: number) => Promise<void>;
   loading: boolean;
 }
-
-export function ItemsList({
-  data,
-  changeColorHandler,
-  deleteItemhandler,
-  createNewItemHandler,
-  updateItemhandler,
-  loading,
-}: Props) {
+export function ItemsList(props: Props) {
   const [addItemVisibility, setAddItemVisibility] = useState(false);
-
-  const ChangeAddItemVisibilityHandler = () => {
-    setAddItemVisibility(!addItemVisibility);
-  };
 
   return (
     <ul className={styles.ItemList}>
@@ -35,26 +23,21 @@ export function ItemsList({
         <span>Ilość</span>
         <span>
           <Button
-            OnClickFunction={ChangeAddItemVisibilityHandler}
+            OnClickFunction={() => setAddItemVisibility(!addItemVisibility)}
             title="Add"
             color="green"
             width={50}
           />
         </span>
       </li>
-      <ListAddItem
-        addItemVisibility={addItemVisibility}
-        createNewItemHandler={createNewItemHandler}
-      />
-      {data?.map((item) => (
-        <SingleItem
-          key={item.id}
-          {...item}
-          changeColorHandler={changeColorHandler}
-          deleteItemhandler={deleteItemhandler}
-          updateItemhandler={updateItemhandler}
-          loading={loading}
+      {addItemVisibility && (
+        <ListAddItem
+          addItemVisibility={addItemVisibility}
+          createNewItemHandler={props.createNewItemHandler}
         />
+      )}
+      {props.data?.map((item) => (
+        <SingleItem key={item.id} {...item} {...props} />
       ))}
     </ul>
   );
