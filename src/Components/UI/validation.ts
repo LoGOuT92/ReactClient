@@ -12,7 +12,7 @@ export const textValueValidate = (text: string): string => {
   
   export const numberValidate = (value: number): string => {
     if (!value || value < 0) {
-      return "Wartośc nie może byc 0!";
+    return "Podaj wartośc większą od 0";
     } else if (value > 1000000) {
       return "Wartość musi być mniejsza od 1000000";
     } else {
