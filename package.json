@@ -1,6 +1,13 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "type": "module",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -22,7 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns '/node_modules/(?!react-syntax-highlighter)/'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -42,5 +49,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6"
   }
 }
