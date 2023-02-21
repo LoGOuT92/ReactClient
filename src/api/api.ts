@@ -2,6 +2,8 @@ import axios from "axios";
 import { Channel, diagram } from "../typings";
 import { randomHexColor } from "../Components/UI/colorGenerator";
 
+const PATH = 'http://localhost:8080'
+
 interface newItem{
     name: string;
     value: number;
@@ -14,10 +16,18 @@ interface CreateItemResponse {
   newDiagramItem: diagram;
   data: ResponseData;
 }
+interface DeleteItemResponse {
+  data: Channel;
+}
+interface GetItemsResponse {
+  data: {
+    channels: Channel[];
+}
+}
 
 export const editItem = async (id: number, value: number): Promise<Channel> => {
   const { data } = await axios.put<Channel>(
-    `http://localhost/my-site/public/api/channels/${id}`,
+    `${PATH}/api/channels/${id}`,
     {
       value: value,
     }
@@ -26,7 +36,7 @@ export const editItem = async (id: number, value: number): Promise<Channel> => {
 };
 export const createItem = async (newItem: newItem): Promise<CreateItemResponse> => {
   const { data } = await axios.post<ResponseData>(
-    "http://localhost/my-site/public/api/channels",
+    `${PATH}/api/channels`,
     newItem
   );
 
@@ -40,22 +50,16 @@ export const createItem = async (newItem: newItem): Promise<CreateItemResponse> 
   return { newDiagramItem, data };
 };
 
-export const deleteItem = async(id:number):Promise<{
-  data: Channel;
-}>=>{
+export const deleteItem = async(id:number):Promise<DeleteItemResponse>=>{
     const { data } = await axios.delete<Channel>(
-        `http://localhost/my-site/public/api/channels/${id}`
+        `${PATH}/api/channels/${id}`
       );
 
       return {data}
 }
-export const getItems = async():Promise<{
-  data: {
-      channels: Channel[];
-  };
-}>=>{
+export const getItems = async():Promise<GetItemsResponse>=>{
     const { data } = await axios.get<{channels:Channel[]}>(
-        "http://localhost/my-site/public/api/channels"
+        `${PATH}/api/channels`
       );
     
       return {data}
