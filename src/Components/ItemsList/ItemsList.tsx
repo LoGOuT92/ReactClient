@@ -7,10 +7,10 @@ import { diagram } from "../../typings";
 
 interface Props {
   data: diagram[] | undefined;
-  changeColorHandler: (id: number, color: string) => void;
-  deleteItemhandler: (id: number) => Promise<void>;
-  createNewItemHandler: (name: string, value: number) => Promise<void>;
-  updateItemhandler: (id: number, value: number) => Promise<void>;
+  handleChangeColor: (id: number, color: string) => void;
+  handleItemDeletion: (id: number) => Promise<void>;
+  handleItemCreation: (name: string, value: number) => Promise<void>;
+  handleItemUpdate: (id: number, value: number) => Promise<void>;
   loading: boolean;
 }
 export function ItemsList(props: Props) {
@@ -24,7 +24,7 @@ export function ItemsList(props: Props) {
         <span>
           <Button
             onClick={() => setAddItemVisibility(!addItemVisibility)}
-            title="Add"
+            title={addItemVisibility ? "cancel" : "add"}
             color="green"
             width={50}
           />
@@ -33,7 +33,7 @@ export function ItemsList(props: Props) {
       {addItemVisibility && (
         <ListAddItem
           addItemVisibility={addItemVisibility}
-          createNewItemHandler={props.createNewItemHandler}
+          createNewItemHandler={props.handleItemCreation}
         />
       )}
       {props.data?.map((item) => (
