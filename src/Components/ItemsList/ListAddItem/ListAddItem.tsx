@@ -19,7 +19,7 @@ export function ListAddItem({
   const [channelError, setChannelError] = useState<string>("");
   const [valueError, setValueError] = useState<string>("");
 
-  const addNewItemHandler = (): void => {
+  const handleCreateNewItem = (): void => {
     const { textError, numberError } = validateInputs();
     setChannelError(textError);
     setValueError(numberError);
@@ -56,13 +56,14 @@ export function ListAddItem({
 
       <NumberInput
         title="Ilość"
+        placeholder="Ilość"
         value={value}
         setNewValue={(number: number) => setValue(number)}
         error={valueError}
       />
       <span>
         <Button
-          onClick={addNewItemHandler}
+          onClick={handleCreateNewItem}
           type="submit"
           title="Add"
           color="green"
