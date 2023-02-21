@@ -2,7 +2,11 @@ import { PieChart } from "react-minimal-pie-chart";
 import { diagram } from "../../typings";
 import styles from "./diagram.module.scss";
 
-export function Diagram({ data }: { data: diagram[] | undefined }) {
+interface Props {
+  data: diagram[] | undefined;
+}
+
+export function Diagram({ data }: Props) {
   return (
     <div className={styles.diagramContainer}>
       {data && (
